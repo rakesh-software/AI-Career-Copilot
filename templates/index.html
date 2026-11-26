@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}AI Career Copilot - Intelligent Career Guidance & Placement Assistant{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-container">
+        <div class="hero-badge">B.Tech Placement & Career Assistant</div>
+        <h1 class="hero-title">AI Career Copilot</h1>
+        <h2 class="hero-subtitle">Your Intelligent Career Guidance and Placement Assistant</h2>
+        <p class="hero-description">
+            Analyze your resume and receive personalized AI-powered career guidance tailored for campus placements and technical industry roles.
+        </p>
+
+        <div class="hero-actions">
+            {% if current_user %}
+                <a href="{{ url_for('upload') }}" class="btn btn-primary btn-lg">Analyze My Resume</a>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-secondary btn-lg">Go to Dashboard</a>
+            {% else %}
+                <a href="{{ url_for('signup') }}" class="btn btn-primary btn-lg">Get Started</a>
+                <a href="{{ url_for('login') }}" class="btn btn-secondary btn-lg">Sign In</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Features Overview Section -->
+<section class="features-section" id="features">
+    <div class="section-container">
+        <div class="section-header">
+            <h2 class="section-title">Core System Capabilities</h2>
+            <p class="section-subtitle">Comprehensive AI-driven evaluation to boost placement readiness</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-header">
+                    <span class="feature-icon">📄</span>
+                    <h3 class="feature-title">AI Resume Analysis</h3>
+                </div>
+                <p class="feature-description">
+                    Extracts structured data from PDF and Word resumes to evaluate candidate technical competency and academic strengths.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-header">
+                    <span class="feature-icon">🎯</span>
+                    <h3 class="feature-title">Career Recommendations</h3>
+                </div>
+                <p class="feature-description">
+                    Identifies the most suitable job profiles and entry-level technical roles aligned with your validated skillset.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-header">
+                    <span class="feature-icon">📊</span>
+                    <h3 class="feature-title">Skill Gap Identification</h3>
+                </div>
+                <p class="feature-description">
+                    Detects critical missing technologies, libraries, and certifications required to succeed in modern industry interviews.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-header">
+                    <span class="feature-icon">💼</span>
+                    <h3 class="feature-title">Interview Preparation</h3>
+                </div>
+                <p class="feature-description">
+                    Generates role-specific technical interview questions and practical project ideas to prepare for placement rounds.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Banner -->
+<section class="cta-section">
+    <div class="cta-container">
+        <h2 class="cta-title">Ready to Prepare for Placements?</h2>
+        <p class="cta-description">
+            Sign up today, upload your resume, and generate your customized career readiness report in seconds.
+        </p>
+        <div class="cta-actions">
+            {% if current_user %}
+                <a href="{{ url_for('upload') }}" class="btn btn-primary btn-lg">Upload Resume Now</a>
+            {% else %}
+                <a href="{{ url_for('signup') }}" class="btn btn-primary btn-lg">Create Free Account</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - AI Career Copilot{% endblock %}
+
+{% block content %}
+<div class="dashboard-wrapper">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <div>
+            <h1 class="dashboard-title">Welcome, {{ user.name }}</h1>
+            <p class="dashboard-subtitle">Candidate Placement &amp; Career Guidance Dashboard</p>
+        </div>
+        <div class="dashboard-actions">
+            <a href="{{ url_for('upload') }}" class="btn btn-primary">
+                + Upload New Resume
+            </a>
+        </div>
+    </div>
+
+    <!-- Quick Stats Cards -->
+    <div class="stats-grid">
+        <!-- Resume Status Card -->
+        <div class="stat-card">
+            <div class="stat-label">Resume Status</div>
+            <div class="stat-value">
+                {% if has_resume %}
+                    <span class="badge badge-success">Uploaded</span>
+                {% else %}
+                    <span class="badge badge-neutral">Not Uploaded</span>
+                {% endif %}
+            </div>
+            <p class="stat-meta">
+                {% if has_resume and latest_resume %}
+                    File: <strong>{{ latest_resume.filename }}</strong>
+                {% else %}
+                    No resume uploaded yet.
+                {% endif %}
+            </p>
+        </div>
+
+        <!-- AI Reports Card -->
+        <div class="stat-card">
+            <div class="stat-label">AI Reports</div>
+            <div class="stat-value stat-number">
+                {{ reports_count }}
+            </div>
+            <p class="stat-meta">
+                Generated career analyses
+            </p>
+        </div>
+
+        <!-- Latest Analysis Card -->
+        <div class="stat-card">
+            <div class="stat-label">Latest Analysis</div>
+            <div class="stat-value">
+                {% if latest_report %}
+                    <a href="{{ url_for('view_report', report_id=latest_report.id) }}" class="btn btn-outline btn-sm">
+                        View Report &rarr;
+                    </a>
+                {% else %}
+                    <span class="stat-empty">Pending Analysis</span>
+                {% endif %}
+            </div>
+            <p class="stat-meta">
+                {% if latest_report %}
+                    Generated on {{ latest_report.created_at.strftime('%b %d, %Y') if latest_report.created_at else 'Recent' }}
+                {% else %}
+                    Upload resume to generate report
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <!-- Previous Reports Section -->
+    <div class="reports-section">
+        <div class="section-title-bar">
+            <h2 class="section-heading">Previous Career Reports</h2>
+            {% if reports %}
+                <span class="section-badge">{{ reports|length }} report{{ 's' if reports|length > 1 else '' }}</span>
+            {% endif %}
+        </div>
+
+        {% if reports %}
+            <div class="reports-table-card">
+                <table class="reports-table">
+                    <thead>
+                        <tr>
+                            <th>Report ID</th>
+                            <th>Associated Resume</th>
+                            <th>Generated Date</th>
+                            <th class="text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for report in reports %}
+                            <tr>
+                                <td>
+                                    <span class="report-badge">#{{ report.id }}</span>
+                                </td>
+                                <td>
+                                    <span class="report-file">
+                                        {% if report.resume %}
+                                            {{ report.resume.filename }}
+                                        {% else %}
+                                            Resume #{{ report.resume_id or 'N/A' }}
+                                        {% endif %}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="report-date">
+                                        {{ report.created_at.strftime('%Y-%m-%d %H:%M') if report.created_at else 'N/A' }}
+                                    </span>
+                                </td>
+                                <td class="text-right">
+                                    <a href="{{ url_for('view_report', report_id=report.id) }}" class="btn btn-outline btn-sm">
+                                        View Report
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-state-card">
+                <div class="empty-icon">📄</div>
+                <h3 class="empty-title">No Reports Available Yet</h3>
+                <p class="empty-text">
+                    You haven't analyzed any resume yet. Upload your resume in PDF or DOCX format to receive your personalized career recommendations.
+                </p>
+                <a href="{{ url_for('upload') }}" class="btn btn-primary">
+                    Upload &amp; Analyze Resume
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

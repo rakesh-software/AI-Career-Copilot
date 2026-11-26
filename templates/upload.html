@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Resume - AI Career Copilot{% endblock %}
+
+{% block content %}
+<div class="upload-wrapper">
+    <div class="upload-card">
+        <div class="upload-header">
+            <h1 class="upload-title">Resume Analyzer</h1>
+            <p class="upload-subtitle">
+                Upload your latest resume to generate a personalized AI-powered placement and career guidance report.
+            </p>
+        </div>
+
+        <!-- User Confirmation Card -->
+        <div class="user-meta-strip">
+            <div class="meta-item">
+                <span class="meta-label">Candidate Name:</span>
+                <span class="meta-value">{{ user.name }}</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Account Email:</span>
+                <span class="meta-value">{{ user.email }}</span>
+            </div>
+        </div>
+
+        <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data" class="upload-form">
+            <div class="form-group file-group">
+                <label for="resume" class="form-label">Select Resume File</label>
+                <div class="file-drop-zone">
+                    <span class="file-icon">📁</span>
+                    <input
+                        type="file"
+                        id="resume"
+                        name="resume"
+                        accept=".pdf,.docx"
+                        class="file-input"
+                        required
+                    >
+                    <p class="file-instruction">Choose a file from your computer (PDF or DOCX)</p>
+                    <p class="file-hint">Accepted formats: <strong>.pdf</strong>, <strong>.docx</strong> (Max 10MB)</p>
+                </div>
+            </div>
+
+            <div class="upload-notes">
+                <h4 class="notes-heading">Analysis Includes:</h4>
+                <ul class="notes-list">
+                    <li>Detected technical competencies &amp; project strengths</li>
+                    <li>Industry role matching for campus placements</li>
+                    <li>Targeted skill gap identification &amp; learning roadmap</li>
+                    <li>Tailored technical interview preparation questions</li>
+                </ul>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block btn-lg">
+                Analyze Resume with AI
+            </button>
+        </form>
+
+        <div class="upload-footer">
+            <a href="{{ url_for('dashboard') }}" class="back-link">&larr; Return to Dashboard</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
